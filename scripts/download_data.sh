@@ -2,12 +2,12 @@
 set -eu
 
 # Usage:
-#   GITHUB_RELEASE_URL="https://github.com/OWNER/REPO/releases/download/v1.0/bitcoin-regtest-data.tar.gz" \
+#   DATA_URL="https://github.com/midl-xyz/bitcoin-asia-bitcoind/releases/download/v1.0/bitcoin-regtest-data.tar.gz" \
 #   ./download-regtest.sh /data
 # If private release, export GITHUB_TOKEN first.
 
 OUT_DIR="${1:-/data}"
-URL="${GITHUB_RELEASE_URL:-}"
+URL="${DATA_URL:-}"
 
 if [ -z "$URL" ]; then
   echo "Set GITHUB_RELEASE_URL to the release asset URL (see README)"
