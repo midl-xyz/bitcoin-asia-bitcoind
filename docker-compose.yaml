@@ -1,0 +1,38 @@
+services:
+  bitcoind:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bitcoin-local
+    container_name: bitcoind
+    volumes:
+      - ./bitcoin:/home/bitcoin/.bitcoin
+    command: >
+      bitcoind
+      -regtest
+      -conf=/home/bitcoin/.bitcoin/bitcoin.conf
+      -rpcuser=1
+      -rpcpassword=1
+      -datadir=/home/bitcoin/.bitcoin
+      -rpcallowip=0.0.0.0/0
+    ports:
+      - "8332:8332"
+      - "8333:8333"
+    healthcheck:
+      test: ["CMD", "sh", "-c", "bitcoin-cli -regtest -rpcuser=1 -rpcpassword=1 -rpcconnect=127.0.0.1 -rpcport=8332 getblockchaininfo >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  automine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bitcoin-automine-local
+    container_name: bitcoin-automine
+    depends_on:
+      - bitcoind
+    volumes:
+      - ./bitcoin:/home/bitcoin/.bitcoin
+    entrypoint: ["sh", "-c", "while true; do bitcoin-cli -regtest -rpcconnect=bitcoind -rpcuser=1 -rpcpassword=1 -rpcport=8332 generatetoaddress 1 bcrt1qxexxwuwvw2kac4c97gzypwwhc6fcznexkd6a59; sleep 30; done"]
+    restart: "always"
