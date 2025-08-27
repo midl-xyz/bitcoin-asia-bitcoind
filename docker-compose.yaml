@@ -23,7 +23,34 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
-
+  electrs:
+    image: mempool/electrs:v3.2.0
+    container_name: electrs
+    depends_on:
+      - bitcoind
+    environment:
+      - RPCUSER=1
+      - RPCPASSWORD=1
+    command:
+      - "--address-search"
+      - "--cookie=1:1"
+      - "--db-dir=/electrs"
+      - "--cors=*"
+      - "--electrum-rpc-addr=0.0.0.0:60401"
+      - "--network=regtest"
+      - "--http-addr=0.0.0.0:3004"
+      - "--jsonrpc-import"
+      - "--index-unspendables"
+      - "--daemon-rpc-addr=bitcoind:8332"
+      - "--utxos-limit=1000"
+      - "--electrum-txs-limit=1000"
+      - "-vvvv"
+    ports:
+      - "60401:60401"
+      - "3004:3004"
+    volumes:
+      - ./electrs:/electrs
+    restart: "always"
   automine:
     build:
       context: .
