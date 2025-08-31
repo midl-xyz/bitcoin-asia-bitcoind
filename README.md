@@ -12,7 +12,7 @@ This repository is a replication of the current MIDL `bitcoind` regtest setup. I
 Download the regtest data (chainstate, blocks, indexes) from the latest GitHub release:
 
 ```sh
-DATA_URL="https://github.com/midl-xyz/bitcoin-asia-bitcoind/releases/download/v1.0/bitcoin-regtest-data.tar.gz" ./scripts/download_data.sh ./bitcoin
+DATA_URL="https://github.com/midl-xyz/bitcoin-asia-bitcoind/releases/download/v1.1/bitcoin-regtest-data-106480.tar.gz" ./scripts/download_data.sh ./
 ```
 
 
