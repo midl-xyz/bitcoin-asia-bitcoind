@@ -15,12 +15,24 @@ services:
       -rpcpassword=1
       -datadir=/home/bitcoin/.bitcoin
       -rpcallowip=0.0.0.0/0
-      -listen=0 
-      -dnsseed=0
-      -connect=0
     ports:
       - "8332:8332"
       - "8333:8333"
+  symphony:
+    image: ghcr.io/maestro-org/maestro-symphony:20250820.3_569c900
+    container_name: symphony
+    environment:
+      - RUST_LOG=debug
+    depends_on:
+      - bitcoind
+    command:
+      - "/etc/symphony/config.toml"
+      - "run"
+    volumes:
+      - ./config/symphony:/etc/symphony
+      - ./data/symphony:/data/symphony
+    ports:
+      - "8080:8080"
   electrs:
     image: mempool/electrs:v3.2.0
     container_name: electrs
@@ -47,7 +59,7 @@ services:
       - "60401:60401"
       - "3004:3004"
     volumes:
-      - ./electrs:/electrs
+      - ./data/electrs:/electrs
     restart: "always"
   # automine:
   #   build:

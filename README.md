@@ -67,6 +67,18 @@ curl --user 1:1 \
 
 If the node is running in Docker and `8332` is published (the default in `docker-compose.yaml`), the curl command above will hit the RPC endpoint. If using a different host or port, update the URL and credentials accordingly.
 
+## Maestro Symphony
+
+Runs a local indexer for Bitcoin Runes using Maestro Symphony. The service is defined in `docker-compose.yaml` and connects to the `bitcoind` regtest node. You can access the Symphony web interface by navigating to `http://localhost:8080` in your web browser.
+
+### Get rune balance by address
+
+```
+curl http://localhost:8080/addresses/bcrt1pqa434kh784hx9ey769g7c53w9js794c6js46z3td6h9zre4aj97s3etsdy/runes/balances
+```
+
+
+
 ## Notes & assumptions
 
 - The `docker-compose.yaml` in this repo mounts your local `./bitcoin` folder into the container at `/home/bitcoin/.bitcoin` so existing regtest data (blocks, chainstate, wallet, config) is preserved.
